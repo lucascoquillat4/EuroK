@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Transversal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="Accueil.html" class="nav-item"><strong>ACCUEIL</strong></a>
+            <a href="News.html" class="nav-item"><strong>NEWS</strong></a>
+            <a href="Promotion.html" class="nav-item"><strong>PROMOTION</strong></a>
+            <a href="Game.html" class="nav-item"><strong>JEU</strong></a>
+        </div>
+        <div class="nav-center">
+            <a href="quizz.html" class="nav-item"><strong>QUIZZ</strong></a>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="nav-item" id="loginBtn"><strong>CONNEXION</strong></a>
+            <div id="userSection" style="display: none;">
+                <button id="profileBtn">
+                    <span id="userPoints">Mon Compte</span>
+                </button>
+                <button id="logoutBtn">Déconnexion</button>
+            </div>
+        </div>
+    </nav>
+    <div class="titre_cp">
+        <p>QUIZZ</p>
+    </div>
+
+    <!-- Ajout de la section quiz -->
+    <div class="quiz-container">
+        <div id="auth-message" class="auth-message" style="display: none;">
+            <p>Connectez-vous pour jouer et gagner des EuroKoins !</p>
+            <button id="loginPrompt" class="quiz-btn">Se connecter</button>
+        </div>
+
+        <div id="quiz-content" style="display: none;">
+            <div class="quiz-header">
+                <p>Répondez correctement pour gagner 30 EuroKoins par bonne réponse !</p>
+                <div class="quiz-progress">Question <span id="currentQuestion">1</span>/5</div>
+            </div>
+
+            <div id="questionContainer" class="question-container">
+                <!-- Les questions seront injectées ici via JavaScript -->
+            </div>
+
+            <button id="submitAnswer" class="quiz-btn">Valider ma réponse</button>
+        </div>
+
+        <div id="quiz-results" class="quiz-results" style="display: none;">
+            <h2>Quiz terminé !</h2>
+            <p>Vous avez gagné <span id="totalPoints">0</span> EuroKoins</p>
+            <button id="retryQuiz" class="quiz-btn">Rejouer</button>
+        </div>
+    </div>
+<!-- Modal Connexion -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Connexion</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Mot de passe</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p class="switch-text">Pas encore de compte ? <button id="switchToRegister" class="switch-btn">S'inscrire</button></p>
+    </div>
+</div>
+
+<!-- Modal Inscription -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Inscription</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Mot de passe</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <div class="form-group">
+                <label for="register-confirm-password">Confirmer le mot de passe</label>
+                <input type="password" id="register-confirm-password" required>
+            </div>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <p class="switch-text">Déjà un compte ? <button id="switchToLogin" class="switch-btn">Se connecter</button></p>
+    </div>
+</div>
+
+<!-- Modal Profil -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Mon Profil</h2>
+        <div id="adminBadge" class="admin-badge-container" style="display: none;">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <div class="profile-info">
+            <div id="personalInfoSection" class="profile-section">
+                <h3>Informations personnelles</h3>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <button id="changePasswordBtn" class="secondary-btn">Changer le mot de passe</button>
+            </div>
+            <div id="adminCredentials" class="profile-section admin-credentials" style="display: none;">
+                <h3>Informations Administrateur</h3>
+                <div class="admin-info">
+                    <p><strong>Email admin:</strong> admin@test.com</p>
+                    <p><strong>Mot de passe admin:</strong> admin123</p>
+                    <div class="admin-note">
+                        <small>Ces informations sont confidentielles</small>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-section">
+                <h3>Mes EuroKoins</h3>
+                <div class="points-display">
+                    <span id="profilePoints" class="points-value">0</span>
+                    <span class="points-label">EuroKoins</span>
+                </div>
+                <p class="points-info">Gagnez plus d'EuroKoins en participant aux quizz et au jeu !</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer class="main-footer">
+        <div class="social-networks">
+            <a href="#" rel=""><img src="img/icons8-facebook-nouveau-500.png" alt="Facebook" class="social-logo"></a>
+            <a href="#" rel=""><img src="img/icons8-instagram-500.png" alt="Instagram" class="social-logo"></a>
+            <a href="#" rel=""><img src="img/DEEZR.PA.D-ebbfdde4 (1).png" alt="Deezer" class="social-logo"></a>
+            <a href="#" rel=""><img src="img/icons8-youtube-500.png" alt="YouTube" class="social-logo"></a>
+            <a href="#" rel=""><img src="img/icons8-twitter-500.png" alt="Twitter" class="social-logo"></a>
+        </div>
+        <div class="footer-links">
+            <a href="#">Actualités</a>
+            <a href="#">Contact</a>
+            <a href="#">Mentions légales</a>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>
