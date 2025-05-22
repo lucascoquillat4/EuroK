@@ -80,6 +80,32 @@ function updateUserPoints(points) {
     localStorage.setItem('user', JSON.stringify(user));
 }
 
+function checkQuizCooldown() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) return false;
+
+    const lastQuizAttempt = localStorage.getItem(`lastQuizAttempt_${user.email}`);
+    if (!lastQuizAttempt) return true;
+
+    const now = new Date().getTime();
+    const lastAttempt = parseInt(lastQuizAttempt);
+    const hoursSinceLastAttempt = (now - lastAttempt) / (1000 * 60 * 60);
+
+    return hoursSinceLastAttempt >= 24;
+}
+
+function getTimeRemaining() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const lastQuizAttempt = parseInt(localStorage.getItem(`lastQuizAttempt_${user.email}`));
+    const now = new Date().getTime();
+    const timeRemaining = 24 - ((now - lastQuizAttempt) / (1000 * 60 * 60));
+    
+    const hours = Math.floor(timeRemaining);
+    const minutes = Math.floor((timeRemaining % 1) * 60);
+    
+    return `${hours}h ${minutes}min`;
+}
+
 submitBtn.addEventListener('click', () => {
     const selectedOption = questionContainer.querySelector('.option.selected');
     if (!selectedOption) return;
@@ -95,19 +121,36 @@ submitBtn.addEventListener('click', () => {
     if (currentQuestionIndex < questions.length) {
         displayQuestion();
     } else {
-        quizContent.style.display = 'none';
-        quizResults.style.display = 'block';
-        totalPoints.textContent = score;
+        endQuiz();
     }
 });
 
+function endQuiz() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    quizContent.style.display = 'none';
+    quizResults.style.display = 'block';
+    totalPoints.textContent = score;
+    
+    // Enregistrer la date de la dernière tentative
+    localStorage.setItem(`lastQuizAttempt_${user.email}`, new Date().getTime().toString());
+    
+    // Mettre à jour les points de l'utilisateur
+    user.points = (parseInt(user.points) || 0) + score;
+    localStorage.setItem('user', JSON.stringify(user));
+    
+    // Mettre à jour l'affichage des points dans la navbar
+    const userPoints = document.getElementById('userPoints');
+    if (userPoints) {
+        userPoints.textContent = `EuroKoins: ${user.points}`;
+    }
+}
+
 retryQuiz.addEventListener('click', () => {
-    currentQuestionIndex = 0;
-    score = 0;
-    quizResults.style.display = 'none';
-    if (checkAuth()) {
-        quizContent.style.display = 'block';
-        displayQuestion();
+    if (checkQuizCooldown()) {
+        startQuiz();
+    } else {
+        const timeLeft = getTimeRemaining();
+        alert(`Vous devez attendre ${timeLeft} avant de pouvoir rejouer.`);
     }
 });
 
@@ -115,7 +158,29 @@ loginPrompt.addEventListener('click', () => {
     window.location.href = 'Accueil.html';
 });
 
-// Initialiser le quiz
-if (checkAuth()) {
+document.addEventListener('DOMContentLoaded', () => {
+    if (checkAuth()) {
+        startQuiz();
+    }
+});
+
+function startQuiz() {
+    if (!checkQuizCooldown()) {
+        const timeLeft = getTimeRemaining();
+        quizContent.style.display = 'none';
+        const cooldownMessage = document.createElement('div');
+        cooldownMessage.className = 'cooldown-message';
+        cooldownMessage.innerHTML = `
+            <h3>Quiz en pause</h3>
+            <p>Vous pourrez rejouer dans ${timeLeft}</p>
+        `;
+        document.querySelector('.quiz-container').appendChild(cooldownMessage);
+        return;
+    }
+
+    currentQuestionIndex = 0;
+    score = 0;
     displayQuestion();
+    quizContent.style.display = 'block';
+    quizResults.style.display = 'none';
 }

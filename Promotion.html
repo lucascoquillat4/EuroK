@@ -20,7 +20,7 @@
             <a href="Game.html" class="nav-item"><strong>JEU</strong></a>
         </div>
         <div class="nav-center">
-            <a href="quizz.html" class="nav-item"><strong>QUIZZ</strong></a>
+            <a href="quizz.html" class="nav-item"><strong>QUIZ</strong></a>
         </div>
         <div class="nav-right">
             <a href="#" class="nav-item"><strong>S'INSCRIRE</strong></a>
@@ -29,12 +29,107 @@
     <div class="titre_cp">
         <p>Court-Métrage</p>
     </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <hr class="section-divider">
+    <div class="video-container">
+        <video controls>
+            <source src="videos/film.mp4" type="video/mp4">
+            Votre navigateur ne prend pas en charge la lecture de vidéos.
+        </video>
+    </div>
     <div class="titre_cp">
         <p>Synopsis du film</p>
-        <section class="fond_sf">
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla ad, porro voluptatum expedita vel quod esse, nemo aspernatur placeat delectus sunt aut. Consequatur accusamus, voluptatem voluptatibus dolorem vero debitis nobis.lorem Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum, ducimus, temporibus quisquam ad dignissimos illo non odit consequuntur, aliquam molestias rem accusantium. At, facilis! Nulla ut aspernatur error. Tempore, minima? Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit maxime ad accusantium labore impedit laboriosam eos quisquam, at eveniet sapiente, commodi sint beatae itaque quos vel ex, consectetur nesciunt delectus!</p>
     </div>
+    <hr class="section-divider">
+        <section class="fond_sf">
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+                Nulla ad, porro voluptatum expedita vel quod esse, nemo aspernatur placeat delectus sunt aut. 
+                Consequatur accusamus, voluptatem voluptatibus dolorem vero debitis nobis. 
+                lorem Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                Ipsum, ducimus, temporibus quisquam ad dignissimos illo non odit consequuntur, aliquam molestias rem accusantium. 
+                At, facilis! Nulla ut aspernatur error. Tempore, minima? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Velit maxime ad accusantium labore impedit laboriosam eos quisquam, at eveniet sapiente, 
+                commodi sint beatae itaque quos vel ex, consectetur nesciunt delectus!</p>
+            </section>
+    <!-- Modal Connexion -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Connexion</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Mot de passe</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p class="switch-text">Pas encore de compte ? <button id="switchToRegister" class="switch-btn">S'inscrire</button></p>
+    </div>
+</div>
+
+<!-- Modal Inscription -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Inscription</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Mot de passe</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <div class="form-group">
+                <label for="register-confirm-password">Confirmer le mot de passe</label>
+                <input type="password" id="register-confirm-password" required>
+            </div>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <p class="switch-text">Déjà un compte ? <button id="switchToLogin" class="switch-btn">Se connecter</button></p>
+    </div>
+</div>
+
+<!-- Modal Profil -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Mon Profil</h2>
+        <div id="adminBadge" class="admin-badge-container" style="display: none;">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <div class="profile-info">
+            <div id="personalInfoSection" class="profile-section">
+                <h3>Informations personnelles</h3>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <button id="changePasswordBtn" class="secondary-btn">Changer le mot de passe</button>
+            </div>
+            <div id="adminCredentials" class="profile-section admin-credentials" style="display: none;">
+                <h3>Informations Administrateur</h3>
+                <div class="admin-info">
+                    <p><strong>Email admin:</strong> admin@test.com</p>
+                    <p><strong>Mot de passe admin:</strong> admin123</p>
+                    <div class="admin-note">
+                        <small>Ces informations sont confidentielles</small>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-section">
+                <h3>Mes EuroKoins</h3>
+                <div class="points-display">
+                    <span id="profilePoints" class="points-value">0</span>
+                    <span class="points-label">EuroKoins</span>
+                </div>
+                <p class="points-info">Gagnez plus d'EuroKoins en participant aux quizz et au jeu !</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <br>
     <footer class="main-footer">
         <div class="social-networks">
             <a href="#" rel=""><img src="img/icons8-facebook-nouveau-500.png" alt="Facebook" class="social-logo"></a>

@@ -10,21 +10,32 @@ document.addEventListener('scroll', () => {
 //Slider Début//
 
 document.querySelectorAll('.slider').forEach(slider => {
+    const content = slider.querySelector('.slider-content');
     const upBtn = slider.querySelector('.up-btn');
     const downBtn = slider.querySelector('.down-btn');
-    const content = slider.querySelector('.slider-content');
-
-    let scrollAmount = 0;
-    const scrollStep = 50;
+    const scrollAmount = 250;
 
     upBtn.addEventListener('click', () => {
-        scrollAmount -= scrollStep;
-        content.scrollTo({ top: scrollAmount, behavior: 'smooth' });
+        content.scrollBy({
+            top: -scrollAmount,
+            behavior: 'smooth'
+        });
     });
 
     downBtn.addEventListener('click', () => {
-        scrollAmount += scrollStep;
-        content.scrollTo({ top: scrollAmount, behavior: 'smooth' });
+        content.scrollBy({
+            top: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    // Ajout du défilement avec la molette de la souris
+    content.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        content.scrollBy({
+            top: e.deltaY,
+            behavior: 'smooth'
+        });
     });
 });
 // Slider Fin //
@@ -118,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginBtn.style.display = 'none';
         userSection.style.display = 'flex';
         
-        // Vérifier si c'est un admin
-        const isAdmin = user.email === 'admin@test.com';
+        // Vérifier si c'est l'admin (email spécifique)
+        const isAdmin = user.email === 'admin123@test.com';
         
         // Gérer l'affichage des sections
         const adminBadge = document.getElementById('adminBadge');
@@ -127,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const personalInfoSection = document.getElementById('personalInfoSection');
         
         if (isAdmin) {
-            // Afficher les éléments admin et cacher les infos personnelles
+            // Afficher les éléments admin
             if (adminBadge) adminBadge.style.display = 'block';
             if (adminCredentials) adminCredentials.style.display = 'block';
             if (personalInfoSection) personalInfoSection.style.display = 'none';
@@ -138,14 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 userPoints.innerHTML = `Mon Compte <span class="admin-badge">ADMIN</span>`;
             }
         } else {
-            // Afficher les infos personnelles pour les utilisateurs normaux
+            // Cacher les éléments admin pour les utilisateurs normaux
             if (adminBadge) adminBadge.style.display = 'none';
             if (adminCredentials) adminCredentials.style.display = 'none';
             if (personalInfoSection) personalInfoSection.style.display = 'block';
         }
         
-        // Mettre à jour les points
+        // Mettre à jour les informations du profil
+        const profileEmail = document.getElementById('profileEmail');
         const profilePoints = document.getElementById('profilePoints');
+        
+        if (profileEmail) profileEmail.textContent = user.email;
         if (profilePoints) profilePoints.textContent = user.points || 0;
     }
 
@@ -174,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('login-password').value;
 
         // Vérifier si c'est l'admin
-        if (email === 'admin@test.com' && password === 'admin123') {
+        if (email === 'admin123@test.com' && password === 'admin123') {
             const adminUser = {
                 email: email,
                 password: password,
@@ -187,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // Vérification utilisateur normal
+        // Gestion des utilisateurs normaux
         const storedUser = JSON.parse(localStorage.getItem('user'));
         if (storedUser && storedUser.email === email && storedUser.password === password) {
             showUserSection(storedUser);
@@ -222,4 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Vérifier le statut d'authentification au chargement
     checkAuthStatus();
+
+    // Logo animation observer
+    const logo = document.querySelector('.main-logo');
+    
+    // Create the observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Remove and reapply the animation class
+                logo.classList.remove('logo-animation');
+                void logo.offsetWidth; // Trigger reflow
+                logo.classList.add('logo-animation');
+            }
+        });
+    }, {
+        threshold: 0.5 // Animation triggers when 50% of the logo is visible
+    });
+
+    // Start observing the logo
+    if (logo) {
+        observer.observe(logo);
+    }
 });
