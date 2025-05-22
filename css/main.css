@@ -862,10 +862,3 @@ hr.section-divider {
 iframe {
     border: none;
 }
-
-.video-container video {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
