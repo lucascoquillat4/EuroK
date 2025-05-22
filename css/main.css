@@ -854,9 +854,12 @@ hr.section-divider {
 }
 
 .video-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+      text-align: center;
+      margin-top: 50px;
+}
+
+iframe {
+    border: none;
 }
 
 .video-container video {
